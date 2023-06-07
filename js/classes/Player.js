@@ -15,6 +15,7 @@ class Player {
   update() {
     this.draw();
     this.position.y += this.velocity.y;
+    this.position.x += this.velocity.x;
     //checks if player hits bottom of canvas height to stop going down.
     if (this.position.y + this.height + this.velocity.y < canvas.height) {
       this.velocity.y += gravity;
