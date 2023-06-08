@@ -13,6 +13,6 @@ class Sprite {
   }
 
   update() {
-    this.draw()
+    this.draw();
   }
 }
