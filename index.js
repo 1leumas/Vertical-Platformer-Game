@@ -2,8 +2,8 @@
 const canvas = document.querySelector(`canvas`);
 const c = canvas.getContext(`2d`);
 //define canvas size
-canvas.width = 1024;
-canvas.height = 576;
+canvas.width = 1920;
+canvas.height = 961;
 
 const scaledCanvas = {
   width: canvas.width / 4,
@@ -15,7 +15,7 @@ for (let i = 0; i < floorCollisions.length; i += 36) {
   floorCollisions2D.push(floorCollisions.slice(i, i + 36));
 }
 
-const collisionBlocks = []
+const collisionBlocks = [];
 //put collisions block
 floorCollisions2D.forEach((row, y) => {
   row.forEach((symbol, x) => {
@@ -27,10 +27,10 @@ floorCollisions2D.forEach((row, y) => {
             y: y * 16,
           },
         })
-      )
+      );
     }
-  })
-})
+  });
+});
 
 const platformCollisions2D = [];
 for (let i = 0; i < platformCollisions.length; i += 36) {
@@ -63,9 +63,11 @@ const gravity = 0.1;
 const player = new Player({
   position: {
     x: 100,
-    y: 0
+    y: 0,
   },
-  collisionBlocks
+  collisionBlocks,
+  imageSrc: `./img/hero_knight/Idle.png`,
+  frameRate: 11,
 });
 const keys = {
   d: {
@@ -100,20 +102,19 @@ function animate() {
   //put background in game
   background.update();
   //put collisions block in the game
-   collisionBlocks.forEach((collisionBlock) => {
-     collisionBlock.update()
-   })
+  collisionBlocks.forEach((collisionBlock) => {
+    collisionBlock.update();
+  });
   //put platform collisions block in the game
-   platformCollisionBlocks.forEach((block) => {
-     block.update()
-   })
+  platformCollisionBlocks.forEach((block) => {
+    block.update();
+  });
   //restore
 
   player.update();
   c.restore();
 
   //put players in game
-
 
   // player movement
   player.velocity.x = 0;
