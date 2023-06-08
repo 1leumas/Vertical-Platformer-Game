@@ -15,24 +15,22 @@ for (let i = 0; i < floorCollisions.length; i += 36) {
   floorCollisions2D.push(floorCollisions.slice(i, i + 36));
 }
 
-const collisionsBlocks = [];
+const collisionBlocks = []
 //put collisions block
 floorCollisions2D.forEach((row, y) => {
   row.forEach((symbol, x) => {
-    switch (symbol) {
-      case 202:
-        collisionsBlocks.push(
-          new CollisionBlock({
-            position: {
-              x: 16 * x,
-              y: 16 * y,
-            },
-          })
-        );
-        break;
+    if (symbol === 202) {
+      collisionBlocks.push(
+        new CollisionBlock({
+          position: {
+            x: x * 16,
+            y: y * 16,
+          },
+        })
+      )
     }
-  });
-});
+  })
+})
 
 const platformCollisions2D = [];
 for (let i = 0; i < platformCollisions.length; i += 36) {
@@ -59,16 +57,15 @@ platformCollisions2D.forEach((row, y) => {
 });
 
 //gravity
-const gravity = 0.12;
+const gravity = 0.1;
 
 //create players
 const player = new Player({
-  x: 0,
-  y: 0,
-});
-const player2 = new Player({
-  x: 300,
-  y: 100,
+  position: {
+    x: 100,
+    y: 0
+  },
+  collisionBlocks
 });
 const keys = {
   d: {
@@ -103,26 +100,27 @@ function animate() {
   //put background in game
   background.update();
   //put collisions block in the game
-  collisionsBlocks.forEach((collisionsBlock) => {
-    collisionsBlock.update();
-  });
+   collisionBlocks.forEach((collisionBlock) => {
+     collisionBlock.update()
+   })
   //put platform collisions block in the game
-  platformCollisionBlocks.forEach((collisionsBlock) => {
-    collisionsBlock.update();
-  });
+   platformCollisionBlocks.forEach((block) => {
+     block.update()
+   })
   //restore
+
+  player.update();
   c.restore();
 
   //put players in game
-  player.update();
-  player2.update();
+
 
   // player movement
   player.velocity.x = 0;
   if (keys.d.pressed) {
-    player.velocity.x = 2.5;
+    player.velocity.x = 1.5;
   } else if (keys.a.pressed) {
-    player.velocity.x = -2.5;
+    player.velocity.x = -1.5;
   }
 }
 
@@ -141,7 +139,7 @@ addEventListener(`keydown`, (e) => {
       break;
 
     case `w`:
-      player.velocity.y = -7.5;
+      player.velocity.y = -3.7;
       break;
   }
 });
