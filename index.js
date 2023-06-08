@@ -1,17 +1,65 @@
 //define canvas as 2d
 const canvas = document.querySelector(`canvas`);
 const c = canvas.getContext(`2d`);
-
-
-const scaledCanvas = {
-    width: canvas.width / 4,
-    height: canvas.height
-}
-//gravity
-const gravity = 0.09;
-//fill screen
+//define canvas size
 canvas.width = 1024;
 canvas.height = 576;
+
+const scaledCanvas = {
+  width: canvas.width / 4,
+  height: canvas.height / 4,
+};
+
+const floorCollisions2D = [];
+for (let i = 0; i < floorCollisions.length; i += 36) {
+  floorCollisions2D.push(floorCollisions.slice(i, i + 36));
+}
+
+const collisionsBlocks = [];
+//put collisions block
+floorCollisions2D.forEach((row, y) => {
+  row.forEach((symbol, x) => {
+    switch (symbol) {
+      case 202:
+        collisionsBlocks.push(
+          new CollisionBlock({
+            position: {
+              x: 16 * x,
+              y: 16 * y,
+            },
+          })
+        );
+        break;
+    }
+  });
+});
+
+const platformCollisions2D = [];
+for (let i = 0; i < platformCollisions.length; i += 36) {
+  platformCollisions2D.push(platformCollisions.slice(i, i + 36));
+}
+
+const platformCollisionBlocks = [];
+//put platform collisions
+platformCollisions2D.forEach((row, y) => {
+  row.forEach((symbol, x) => {
+    switch (symbol) {
+      case 202:
+        platformCollisionBlocks.push(
+          new CollisionBlock({
+            position: {
+              x: 16 * x,
+              y: 16 * y,
+            },
+          })
+        );
+        break;
+    }
+  });
+});
+
+//gravity
+const gravity = 0.12;
 
 //create players
 const player = new Player({
@@ -49,12 +97,21 @@ function animate() {
   c.fillRect(0, 0, canvas.width, canvas.height);
 
   //scale up background image
-  c.save()
-   c.scale(4,4)
-  c.translate(0, -background.image.height + scaledCanvas.height)
+  c.save();
+  c.scale(4, 4);
+  c.translate(0, -background.image.height + scaledCanvas.height);
   //put background in game
   background.update();
-  c.restore()
+  //put collisions block in the game
+  collisionsBlocks.forEach((collisionsBlock) => {
+    collisionsBlock.update();
+  });
+  //put platform collisions block in the game
+  platformCollisionBlocks.forEach((collisionsBlock) => {
+    collisionsBlock.update();
+  });
+  //restore
+  c.restore();
 
   //put players in game
   player.update();
@@ -63,9 +120,9 @@ function animate() {
   // player movement
   player.velocity.x = 0;
   if (keys.d.pressed) {
-    player.velocity.x = 1.7;
+    player.velocity.x = 2.5;
   } else if (keys.a.pressed) {
-    player.velocity.x = -1.7;
+    player.velocity.x = -2.5;
   }
 }
 
@@ -84,7 +141,7 @@ addEventListener(`keydown`, (e) => {
       break;
 
     case `w`:
-      player.velocity.y = -5;
+      player.velocity.y = -7.5;
       break;
   }
 });
