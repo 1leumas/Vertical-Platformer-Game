@@ -84,7 +84,7 @@ const background = new Sprite({
     x: 0,
     y: 0,
   },
-  imageSrc: "./img/background.png",
+  imageSrc: "./img/background.png", //change
 });
 
 //start animation loop
