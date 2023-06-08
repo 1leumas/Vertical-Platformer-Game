@@ -63,7 +63,7 @@ const gravity = 0.1;
 const player = new Player({
   position: {
     x: 100,
-    y: 0,
+    y: 300,
   },
   collisionBlocks,
   imageSrc: `./img/hero_knight/Idle.png`,
