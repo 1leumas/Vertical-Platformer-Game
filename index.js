@@ -68,6 +68,48 @@ const player = new Player({
   collisionBlocks,
   imageSrc: `./img/hero_knight/Idle.png`,
   frameRate: 11,
+  animations: {
+    Idle: {
+      imageSrc: `./img/hero_knight/Idle.png`,
+      frameRate: 11,
+      frameBuffer: 6,
+    },
+    Run: {
+      imageSrc: `./img/hero_knight/Run.png`,
+      frameRate: 8,
+      frameBuffer: 7,
+    },
+    Jump: {
+      imageSrc: `./img/hero_knight/Jump.png`,
+      frameRate: 3,
+      frameBuffer: 7,
+    },
+    Fall: {
+      imageSrc: `./img/hero_knight/Fall.png`,
+      frameRate: 3,
+      frameBuffer: 7,
+    },
+    IdleLeft: {
+      imageSrc: `./img/hero_knight/IdleLeft.png`,
+      frameRate: 11,
+      frameBuffer: 6,
+    },
+    RunLeft: {
+      imageSrc: `./img/hero_knight/RunLeft.png`,
+      frameRate: 8,
+      frameBuffer: 7,
+    },
+    JumpLeft: {
+      imageSrc: `./img/hero_knight/JumpLeft.png`,
+      frameRate: 3,
+      frameBuffer: 7,
+    },
+    FallLeft: {
+      imageSrc: `./img/hero_knight/FallLeft.png`,
+      frameRate: 3,
+      frameBuffer: 7,
+    },
+  },
 });
 const keys = {
   d: {
@@ -84,19 +126,20 @@ const background = new Sprite({
     x: 0,
     y: 0,
   },
-  imageSrc: "./img/background.png", //change
+  imageSrc: "./img/background.png",
 });
 
-//start animation loop
+//start animation
 function animate() {
   //animation loop
   requestAnimationFrame(animate);
   //canvas background
-  c.fillStyle = `white`;
-  c.fillRect(0, 0, canvas.width, canvas.height);
+  // c.fillStyle = `white`;
+  // c.fillRect(0, 0, canvas.width, canvas.height);
 
-  //scale up background image
+  //save
   c.save();
+  //scale up background image
   c.scale(4, 4);
   c.translate(0, -background.image.height + scaledCanvas.height);
   //put background in game
@@ -109,20 +152,43 @@ function animate() {
   platformCollisionBlocks.forEach((block) => {
     block.update();
   });
-  //restore
-
+  //put player in game
   player.update();
-  c.restore();
-
-  //put players in game
+  //restore
 
   // player movement
   player.velocity.x = 0;
   if (keys.d.pressed) {
+    player.switchSprite("Run");
     player.velocity.x = 1.5;
+    player.lastDirection = "right";
   } else if (keys.a.pressed) {
+    player.switchSprite("RunLeft");
     player.velocity.x = -1.5;
+    player.lastDirection = "left";
+  } else if (player.velocity.y === 0) {
+    if (player.lastDirection === "right") {
+      player.switchSprite("Idle");
+    } else {
+      player.switchSprite("IdleLeft");
+    }
   }
+
+  if (player.velocity.y < 0) {
+    if (player.lastDirection === "right") {
+      player.switchSprite("Jump");
+    } else {
+      player.switchSprite("JumpLeft");
+    }
+  } else if (player.velocity.y > 0) {
+    if (player.lastDirection === "right") {
+      player.switchSprite("Fall");
+    } else {
+      player.switchSprite("FallLeft");
+    }
+  }
+
+  c.restore();
 }
 
 //start animation

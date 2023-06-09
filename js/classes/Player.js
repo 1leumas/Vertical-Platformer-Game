@@ -1,5 +1,12 @@
 class Player extends Sprite {
-  constructor({ position, collisionBlocks, imageSrc, frameRate, scale = 0.5 }) {
+  constructor({
+    position,
+    collisionBlocks,
+    imageSrc,
+    frameRate,
+    scale = 0.56,
+    animations,
+  }) {
     super({ imageSrc, frameRate, scale });
     this.position = position;
     this.velocity = {
@@ -15,6 +22,23 @@ class Player extends Sprite {
       width: 10,
       height: 10,
     };
+    //animations
+    this.animations = animations;
+    //last direction
+    this.lastDirection = `right`;
+    //swapping between images
+    for (let key in this.animations) {
+      const image = new Image();
+      image.src = this.animations[key].imageSrc;
+      this.animations[key].image = image;
+    }
+  }
+
+  switchSprite(key) {
+    if (this.image === this.animations[key].image || !this.loaded) return;
+    this.image = this.animations[key].image;
+    this.frameBuffer = this.animations[key].frameBuffer;
+    this.frameRate = this.animations[key].frameRate;
   }
 
   update() {
@@ -22,17 +46,17 @@ class Player extends Sprite {
     this.updateHitbox();
 
     //this draws out the image
-    c.fillStyle = `rgba(255, 255, 0, 0.2)`;
-    c.fillRect(this.position.x, this.position.y, this.width, this.height);
+    // c.fillStyle = `rgba(255, 255, 0, 0.2)`;
+    // c.fillRect(this.position.x, this.position.y, this.width, this.height);
 
     //hitbox style
-    c.fillStyle = `rgba(0, 0, 255, 0.2)`;
-    c.fillRect(
-      this.hitbox.position.x,
-      this.hitbox.position.y,
-      this.hitbox.width,
-      this.hitbox.height
-    );
+    // c.fillStyle = `rgba(0, 0, 255, 0.2)`;
+    // c.fillRect(
+    //   this.hitbox.position.x,
+    //   this.hitbox.position.y,
+    //   this.hitbox.width,
+    //   this.hitbox.height
+    // );
 
     this.draw();
 
@@ -51,11 +75,11 @@ class Player extends Sprite {
   updateHitbox() {
     this.hitbox = {
       position: {
-        x: this.position.x + 38,
-        y: this.position.y + 33,
+        x: this.position.x + 43,
+        y: this.position.y + 38.5,
       },
-      width: 20,
-      height: 24,
+      width: 22,
+      height: 25,
     };
   }
 
