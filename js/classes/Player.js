@@ -34,6 +34,15 @@ class Player extends Sprite {
       image.src = this.animations[key].imageSrc;
       this.animations[key].image = image;
     }
+
+    this.cameraBox = {
+      position: {
+        x: this.position.x,
+        y: this.position.y,
+      },
+      width: 250,
+      height: 150,
+    };
   }
 
   switchSprite(key) {
@@ -45,9 +54,43 @@ class Player extends Sprite {
     this.frameRate = this.animations[key].frameRate;
   }
 
+  updateCameraBox() {
+    this.cameraBox = {
+      position: {
+        x: this.position.x - 75,
+        y: this.position.y - 30,
+      },
+      width: 250,
+      height: 150,
+    };
+  }
+
+  shouldPanCameraToLeft({ canvas, camera }) {
+    const cameraboxRightSide = this.cameraBox.position.x + this.cameraBox.width;
+    const scaledDownCanvasWidth = canvas.width / 4;
+
+    if (cameraboxRightSide >= 576) return;
+
+    if (
+      cameraboxRightSide >=
+      scaledDownCanvasWidth + Math.abs(camera.position.x)
+    ) {
+      camera.position.x -= this.velocity.x;
+    }
+  }
+
+  shouldPanCameraToRight({ canvas, camera }) {
+    if (this.cameraBox.position.x <= 0) return;
+
+    if (this.cameraBox.position.x <= Math.abs(camera.position.x)) {
+      camera.position.x -= this.velocity.x;
+    }
+  }
+
   update() {
     this.updateFrames();
     this.updateHitbox();
+    this.updateCameraBox();
 
     //this draws out the image
     // c.fillStyle = `rgba(255, 255, 0, 0.2)`;
@@ -61,6 +104,15 @@ class Player extends Sprite {
     //   this.hitbox.width,
     //   this.hitbox.height
     // );
+
+    //camera style
+    c.fillStyle = `rgba(0, 0, 255, 0.2)`;
+    c.fillRect(
+      this.cameraBox.position.x,
+      this.cameraBox.position.y,
+      this.cameraBox.width,
+      this.cameraBox.height
+    );
 
     this.draw();
 
@@ -86,6 +138,16 @@ class Player extends Sprite {
       height: 25,
     };
   }
+
+  checkForHorizontalCanvasCollision() {
+    if (
+      this.hitbox.position.x + this.hitbox.width + this.velocity.x >= 576 ||
+      this.hitbox.position.x + this.velocity.x <= 0
+    ) {
+      this.velocity.x = 0
+    }
+  }
+
 
   checkForHorizontalCollisions() {
     for (let i = 0; i < this.collisionBlocks.length; i++) {

@@ -3,7 +3,7 @@ const canvas = document.querySelector(`canvas`);
 const c = canvas.getContext(`2d`);
 //define canvas size
 canvas.width = 1920;
-canvas.height = 961;
+canvas.height = 960;
 
 const scaledCanvas = {
   width: canvas.width / 4,
@@ -132,6 +132,13 @@ const background = new Sprite({
   imageSrc: "./img/background.png",
 });
 
+const camera = {
+  position: {
+    x: 0,
+    y: 0,
+  }
+}
+
 //start animation
 function animate() {
   //animation loop
@@ -144,7 +151,7 @@ function animate() {
   c.save();
   //scale up background image
   c.scale(4, 4);
-  c.translate(0, -background.image.height + scaledCanvas.height);
+  c.translate(camera.position.x, -background.image.height + scaledCanvas.height);
   //put background in game
   background.update();
   //put collisions block in the game
@@ -155,6 +162,7 @@ function animate() {
   platformCollisionBlocks.forEach((block) => {
     block.update();
   });
+  player.checkForHorizontalCanvasCollision(); 
   //put player in game
   player.update();
   //restore
@@ -165,10 +173,12 @@ function animate() {
     player.switchSprite("Run");
     player.velocity.x = 1.5;
     player.lastDirection = "right";
+    player.shouldPanCameraToLeft({canvas, camera})
   } else if (keys.a.pressed) {
     player.switchSprite("RunLeft");
     player.velocity.x = -1.5;
     player.lastDirection = "left";
+    player.shouldPanCameraToRight({canvas, camera})
   } else if (player.velocity.y === 0) {
     if (player.lastDirection === "right") {
       player.switchSprite("Idle");
