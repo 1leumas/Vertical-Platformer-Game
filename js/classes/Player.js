@@ -140,7 +140,7 @@ class Player extends Sprite {
     this.position.x += this.velocity.x;
     this.updateHitbox();
     //check for horizontal collision
-    this.checkForHorizontalCollisions();
+    this.checkForHorizontalCollisions()
     //apply gravity method
     this.applyGravity();
     this.updateHitbox();
@@ -228,6 +228,7 @@ class Player extends Sprite {
             this.hitbox.position.y - this.position.y + this.hitbox.height;
 
           this.position.y = collisionBlock.position.y - offset - 0.01;
+          doubleJump = 0;
           break;
         }
 
@@ -260,6 +261,7 @@ class Player extends Sprite {
             this.hitbox.position.y - this.position.y + this.hitbox.height;
 
           this.position.y = platformCollisionBlock.position.y - offset - 0.01;
+          doubleJump = 0;
           break;
         }
       }

@@ -12,6 +12,9 @@ const scaledCanvas = {
 
 const backgroundImageHeight = 432;
 
+//double jump
+var doubleJump = 0;
+
 const floorCollisions2D = [];
 for (let i = 0; i < floorCollisions.length; i += 36) {
   floorCollisions2D.push(floorCollisions.slice(i, i + 36));
@@ -51,7 +54,7 @@ platformCollisions2D.forEach((row, y) => {
               x: 16 * x,
               y: 16 * y,
             },
-            height: 4
+            height: 4,
           })
         );
         break;
@@ -138,8 +141,8 @@ const camera = {
   position: {
     x: 0,
     y: -backgroundImageHeight + scaledCanvas.height,
-  }
-}
+  },
+};
 
 //start animation
 function animate() {
@@ -164,7 +167,7 @@ function animate() {
   // platformCollisionBlocks.forEach((block) => {
   //   block.update();
   // });
-  player.checkForHorizontalCanvasCollision(); 
+  player.checkForHorizontalCanvasCollision();
   //put player in game
   player.update();
   //restore
@@ -175,12 +178,12 @@ function animate() {
     player.switchSprite("Run");
     player.velocity.x = 1.5;
     player.lastDirection = "right";
-    player.shouldPanCameraToLeft({canvas, camera})
+    player.shouldPanCameraToLeft({ canvas, camera });
   } else if (keys.a.pressed) {
     player.switchSprite("RunLeft");
     player.velocity.x = -1.5;
     player.lastDirection = "left";
-    player.shouldPanCameraToRight({canvas, camera})
+    player.shouldPanCameraToRight({ canvas, camera });
   } else if (player.velocity.y === 0) {
     if (player.lastDirection === "right") {
       player.switchSprite("Idle");
@@ -190,14 +193,14 @@ function animate() {
   }
 
   if (player.velocity.y < 0) {
-    player.shouldPanCameraDown({camera, canvas})
+    player.shouldPanCameraDown({ camera, canvas });
     if (player.lastDirection === "right") {
       player.switchSprite("Jump");
     } else {
       player.switchSprite("JumpLeft");
     }
   } else if (player.velocity.y > 0) {
-    player.shouldPanCameraUp({camera, canvas})
+    player.shouldPanCameraUp({ camera, canvas });
     if (player.lastDirection === "right") {
       player.switchSprite("Fall");
     } else {
@@ -210,7 +213,6 @@ function animate() {
 
 //start animation
 animate();
-
 //key presses
 addEventListener(`keydown`, (e) => {
   switch (e.key) {
@@ -223,6 +225,10 @@ addEventListener(`keydown`, (e) => {
       break;
 
     case `w`:
+      doubleJump += 1;
+      if (doubleJump >= 3) {
+        break;
+      }
       player.velocity.y = -3.1;
       break;
   }
