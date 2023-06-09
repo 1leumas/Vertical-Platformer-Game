@@ -45,6 +45,7 @@ class Player extends Sprite {
     };
   }
 
+  //swapping between images
   switchSprite(key) {
     if (this.image === this.animations[key].image || !this.loaded) return;
 
@@ -87,6 +88,26 @@ class Player extends Sprite {
     }
   }
 
+  shouldPanCameraDown({ canvas, camera }) {
+    if (this.cameraBox.position.y + this.velocity.y <= 0) return;
+    if (this.cameraBox.position.y <= Math.abs(camera.position.y)) {
+      camera.position.y -= this.velocity.y;
+    }
+  }
+
+  shouldPanCameraUp({ canvas, camera }) {
+    const scaledCanvasHeight = canvas.height / 4;
+
+    if (this.cameraBox.position.y+this.cameraBox.height + this.velocity.y >= 432) return;
+
+    if (
+      this.cameraBox.position.y + this.cameraBox.height >=
+      Math.abs(camera.position.y) + scaledCanvasHeight
+    ) {
+      camera.position.y -= this.velocity.y;
+    }
+  }
+
   update() {
     this.updateFrames();
     this.updateHitbox();
@@ -106,13 +127,13 @@ class Player extends Sprite {
     // );
 
     //camera style
-    c.fillStyle = `rgba(0, 0, 255, 0.2)`;
-    c.fillRect(
-      this.cameraBox.position.x,
-      this.cameraBox.position.y,
-      this.cameraBox.width,
-      this.cameraBox.height
-    );
+    // c.fillStyle = `rgba(0, 0, 255, 0.2)`;
+    // c.fillRect(
+    //   this.cameraBox.position.x,
+    //   this.cameraBox.position.y,
+    //   this.cameraBox.width,
+    //   this.cameraBox.height
+    // );
 
     this.draw();
 
@@ -139,16 +160,17 @@ class Player extends Sprite {
     };
   }
 
+  //check horizontal collision with the map
   checkForHorizontalCanvasCollision() {
     if (
       this.hitbox.position.x + this.hitbox.width + this.velocity.x >= 576 ||
       this.hitbox.position.x + this.velocity.x <= 0
     ) {
-      this.velocity.x = 0
+      this.velocity.x = 0;
     }
   }
 
-
+  //check for horizontal collision with blocks
   checkForHorizontalCollisions() {
     for (let i = 0; i < this.collisionBlocks.length; i++) {
       const collisionBlock = this.collisionBlocks[i];
@@ -188,7 +210,7 @@ class Player extends Sprite {
     this.position.y += this.velocity.y;
   }
 
-  //Collision blocks
+  //check for vertical collision with blocks
   checkForVerticalCollisions() {
     for (let i = 0; i < this.collisionBlocks.length; i++) {
       const collisionBlock = this.collisionBlocks[i];
