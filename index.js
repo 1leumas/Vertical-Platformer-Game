@@ -49,6 +49,7 @@ platformCollisions2D.forEach((row, y) => {
               x: 16 * x,
               y: 16 * y,
             },
+            height: 4
           })
         );
         break;
@@ -57,7 +58,7 @@ platformCollisions2D.forEach((row, y) => {
 });
 
 //gravity
-const gravity = 0.1;
+const gravity = 0.075;
 
 //create players
 const player = new Player({
@@ -66,6 +67,7 @@ const player = new Player({
     y: 300,
   },
   collisionBlocks,
+  platformCollisionBlocks,
   imageSrc: `./img/hero_knight/Idle.png`,
   frameRate: 11,
   animations: {
@@ -111,6 +113,7 @@ const player = new Player({
     },
   },
 });
+
 const keys = {
   d: {
     pressed: false,
@@ -206,7 +209,7 @@ addEventListener(`keydown`, (e) => {
       break;
 
     case `w`:
-      player.velocity.y = -3.7;
+      player.velocity.y = -3.1;
       break;
   }
 });
