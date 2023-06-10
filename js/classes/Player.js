@@ -43,6 +43,8 @@ class Player extends Sprite {
       width: 250,
       height: 150,
     };
+
+    this.doubleJump = 0;
   }
 
   //swapping between images
@@ -223,12 +225,12 @@ class Player extends Sprite {
       ) {
         if (this.velocity.y > 0) {
           this.velocity.y = 0;
+          this.doubleJump = 0;
 
           const offset =
             this.hitbox.position.y - this.position.y + this.hitbox.height;
 
           this.position.y = collisionBlock.position.y - offset - 0.01;
-          doubleJump = 0;
           break;
         }
 
@@ -256,12 +258,12 @@ class Player extends Sprite {
       ) {
         if (this.velocity.y > 0) {
           this.velocity.y = 0;
+          this.doubleJump = 0;
 
           const offset =
             this.hitbox.position.y - this.position.y + this.hitbox.height;
 
           this.position.y = platformCollisionBlock.position.y - offset - 0.01;
-          doubleJump = 0;
           break;
         }
       }
