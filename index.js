@@ -169,12 +169,20 @@ const player2 = new Player({
   },
 });
 
-
 const keys = {
   d: {
     pressed: false,
   },
   a: {
+    pressed: false,
+  },
+};
+
+const keys2 = {
+  arrowRight: {
+    pressed: false,
+  },
+  arrowLeft: {
     pressed: false,
   },
 };
@@ -260,6 +268,42 @@ function animate() {
     }
   }
 
+  // player 2 movement
+  player2.velocity.x = 0;
+  if (keys2.arrowRight.pressed) {
+    player2.switchSprite("Run");
+    player2.velocity.x = 1.5;
+    player2.lastDirection = "right";
+    player2.shouldPanCameraToLeft({ canvas, camera });
+  } else if (keys2.arrowLeft.pressed) {
+    player2.switchSprite("RunLeft");
+    player2.velocity.x = -1.5;
+    player2.lastDirection = "left";
+    player2.shouldPanCameraToRight({ canvas, camera });
+  } else if (player2.velocity.y === 0) {
+    if (player2.lastDirection === "right") {
+      player2.switchSprite("Idle");
+    } else {
+      player2.switchSprite("IdleLeft");
+    }
+  }
+
+  if (player2.velocity.y < 0) {
+    player2.shouldPanCameraDown({ camera, canvas });
+    if (player2.lastDirection === "right") {
+      player2.switchSprite("Jump");
+    } else {
+      player2.switchSprite("JumpLeft");
+    }
+  } else if (player2.velocity.y > 0) {
+    player2.shouldPanCameraUp({ camera, canvas });
+    if (player2.lastDirection === "right") {
+      player2.switchSprite("Fall");
+    } else {
+      player2.switchSprite("FallLeft");
+    }
+  }
+
   c.restore();
 }
 
@@ -278,10 +322,26 @@ addEventListener(`keydown`, (e) => {
 
     case `w`:
       player.doubleJump++;
-      if(player.doubleJump >= 3){
+      if (player.doubleJump >= 3) {
         break;
       }
       player.velocity.y = -3.1;
+      break;
+
+    case `ArrowRight`:
+      keys2.arrowRight.pressed = true;
+      break;
+
+    case `ArrowLeft`:
+      keys2.arrowLeft.pressed = true;
+      break;
+
+    case `ArrowUp`:
+      player2.doubleJump++;
+      if (player2.doubleJump >= 3) {
+        break;
+      }
+      player2.velocity.y = -3.1;
       break;
   }
 });
@@ -294,6 +354,14 @@ addEventListener(`keyup`, (e) => {
 
     case `a`:
       keys.a.pressed = false;
+      break;
+
+    case `ArrowRight`:
+      keys2.arrowRight.pressed = false;
+      break;
+
+    case `ArrowLeft`:
+      keys2.arrowLeft.pressed = false;
       break;
   }
 });
