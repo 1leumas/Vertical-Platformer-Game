@@ -214,22 +214,22 @@ const player2 = new Player({
     Attack1: {
       imageSrc: `./img/hero_knight/Attack1.png`,
       frameRate: 7,
-      frameBuffer: 4,
+      frameBuffer: 8,
     },
     Attack1Left: {
       imageSrc: `./img/hero_knight/Attack1Left.png`,
       frameRate: 7,
-      frameBuffer: 10,
+      frameBuffer: 8,
     },
     Attack2: {
       imageSrc: `./img/hero_knight/Attack2.png`,
       frameRate: 7,
-      frameBuffer: 4,
+      frameBuffer: 8,
     },
     Attack2Left: {
       imageSrc: `./img/hero_knight/Attack2Left.png`,
       frameRate: 7,
-      frameBuffer: 10,
+      frameBuffer: 8,
     },
     Death: {
       imageSrc: `./img/hero_knight/Death.png`,
@@ -244,12 +244,12 @@ const player2 = new Player({
     TakeHit: {
       imageSrc: `./img/hero_knight/TakeHit.png`,
       frameRate: 4,
-      frameBuffer: 4,
+      frameBuffer: 10,
     },
     TakeHitLeft: {
       imageSrc: `./img/hero_knight/TakeHitLeft.png`,
       frameRate: 4,
-      frameBuffer: 4,
+      frameBuffer: 10,
     },
   },
 });
@@ -393,7 +393,7 @@ function animate() {
     player2.velocity.x = -1.5;
     player2.lastDirection = "left";
     player2.shouldPanCameraToRight({ canvas, camera });
-  } else if (player2.velocity.y === 0) {
+  } else if (player2.velocity.y === 0 ) {
     if (player2.lastDirection === "right") {
       player2.switchSprite("Idle");
     } else {
@@ -422,6 +422,19 @@ function animate() {
   //determine winner
   if (player.health <= 0 || player2.health <= 0) {
     determineWinner({ player, player2, timerId });
+    if(player.health <= 0){
+      if(player.lastDirection === `right`){
+        player.switchSprite(`Death`);
+      } else {
+        player.switchSprite(`DeathLeft`);
+      }
+    } else if (player2.health <= 0){
+      if(player2.lastDirection === `right`){
+        player2.switchSprite(`Death`);
+      } else {
+        player2.switchSprite(`DeathLeft`);
+      }
+    }
   }
   //restore
   c.restore();

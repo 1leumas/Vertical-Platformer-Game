@@ -55,11 +55,20 @@ class Player extends Sprite {
 
     this.isAttacking = false;
     this.health = 100;
+    this.framesCurrent = 0;
+    this.isTakingDamage = false;
   }
 
   //swapping between images
   switchSprite(key) {
     if (this.image === this.animations[key].image || !this.loaded) return;
+    if (this.image === this.animations[`Death`].image) return;
+    if (this.image === this.animations[`TakeHit`].image && this.isTakingDamage) return;
+    if (this.image === this.animations[`TakeHitLeft`].image && this.isTakingDamage) return;
+    if(this.image === this.animations[`Attack1`].image && this.isAttacking) return;
+    if(this.image === this.animations[`Attack1Left`].image && this.isAttacking) return;
+    if(this.image === this.animations[`Attack2`].image && this.isAttacking) return;
+    if(this.image === this.animations[`Attack2Left`].image && this.isAttacking) return;
 
     this.currentFrame = 0;
     this.image = this.animations[key].image;
@@ -130,8 +139,8 @@ class Player extends Sprite {
     this.updateCameraBox();
 
     //this draws out the image
-    c.fillStyle = `rgba(255, 255, 0, 0.2)`;
-    c.fillRect(this.position.x, this.position.y, this.width, this.height);
+    // c.fillStyle = `rgba(255, 255, 0, 0.2)`;
+    // c.fillRect(this.position.x, this.position.y, this.width, this.height);
 
     //hitbox style
     // c.fillStyle = `rgba(0, 0, 255, 0.2)`;
@@ -339,19 +348,27 @@ class Player extends Sprite {
   //combat
 
   attack() {
+    if (this.isAttacking) return;
     this.isAttacking = true;
     setTimeout(() => {
       this.isAttacking = false;
-    }, 50);
+    }, 350);
     if (this.lastDirection === `right`) {
-      this.switchSprite(`Attack1`);
+      Math.random() < 0.5 ? this.switchSprite(`Attack1`) : this.switchSprite(`Attack2`);
     } else {
-      this.switchSprite(`Attack1Left`);
+      Math.random() < 0.5 ? this.switchSprite(`Attack1Left`) : this.switchSprite(`Attack2Left`);
     }
   }
 
   takeHit() {
+    if(this.isTakingDamage) return;
+
     this.health -= 10;
+
+    this.isTakingDamage = true;
+    setTimeout(() => {
+      this.isTakingDamage = false;
+    }, 350);
 
     if (this.health <= 0) {
       if (this.lastDirection === `right`) {
