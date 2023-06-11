@@ -8,6 +8,8 @@ class Player extends Sprite {
     scale = 0.56,
     animations,
     lastDirection = "right",
+    health = 100,
+    attackDamage = 10,
   }) {
     super({ imageSrc, frameRate, scale });
     this.position = position;
@@ -54,26 +56,67 @@ class Player extends Sprite {
     };
 
     this.isAttacking = false;
-    this.health = 100;
-    this.framesCurrent = 0;
-    this.isTakingDamage = false;
+    this.health = health;
+    this.dead = false;
+    this.attackDamage = attackDamage;
   }
 
   //swapping between images
   switchSprite(key) {
     if (this.image === this.animations[key].image || !this.loaded) return;
-    if (this.image === this.animations[`Death`].image) return;
-    if (this.image === this.animations[`TakeHit`].image && this.isTakingDamage) return;
-    if (this.image === this.animations[`TakeHitLeft`].image && this.isTakingDamage) return;
-    if(this.image === this.animations[`Attack1`].image && this.isAttacking) return;
-    if(this.image === this.animations[`Attack1Left`].image && this.isAttacking) return;
-    if(this.image === this.animations[`Attack2`].image && this.isAttacking) return;
-    if(this.image === this.animations[`Attack2Left`].image && this.isAttacking) return;
+
+    if (this.image === this.animations[`Death`].image) {
+      if (this.currentFrame === this.animations[`Death`].frameRate - 1)
+        this.dead = true;
+      return;
+    }
+
+    if (this.image === this.animations[`DeathLeft`].image) {
+      if (this.currentFrame === this.animations[`DeathLeft`].frameRate - 1)
+        this.dead = true;
+      return;
+    }
+
+    // overriding all other animations with the attack animation
+    if (
+      this.image === this.animations[`Attack1`].image &&
+      this.currentFrame < this.animations[`Attack1`].frameRate - 1
+    ) {
+      return;
+    } else if (
+      this.image === this.animations[`Attack2`].image &&
+      this.currentFrame < this.animations[`Attack2`].frameRate - 1
+    ) {
+      return;
+    } else if (
+      this.image === this.animations[`Attack1Left`].image &&
+      this.currentFrame < this.animations[`Attack1Left`].frameRate - 1
+    ) {
+      return;
+    } else if (
+      this.image === this.animations[`Attack2Left`].image &&
+      this.currentFrame < this.animations[`Attack2Left`].frameRate - 1
+    ) {
+      return;
+    }
+
+    if (
+      this.image === this.animations[`TakeHit`].image &&
+      this.currentFrame < this.animations[`TakeHit`].frameRate - 1
+    ) {
+      return;
+    } else if (
+      this.image === this.animations[`TakeHitLeft`].image &&
+      this.currentFrame < this.animations[`TakeHitLeft`].frameRate - 1
+    ) {
+      return;
+    }
 
     this.currentFrame = 0;
     this.image = this.animations[key].image;
     this.frameBuffer = this.animations[key].frameBuffer;
     this.frameRate = this.animations[key].frameRate;
+    console.log(this.image);
   }
 
   updateCameraBox() {
@@ -134,7 +177,9 @@ class Player extends Sprite {
   }
 
   update() {
-    this.updateFrames();
+    if(!this.dead){
+      this.updateFrames();
+    }
     this.updateHitbox();
     this.updateCameraBox();
 
@@ -356,34 +401,34 @@ class Player extends Sprite {
       this.isAttacking = false;
     }, 270);
     if (this.lastDirection === `right`) {
-      Math.random() < 0.5 ? this.switchSprite(`Attack1`) : this.switchSprite(`Attack2`);
+      Math.random() < 0.5
+        ? this.switchSprite(`Attack1`)
+        : this.switchSprite(`Attack2`);
     } else {
-      Math.random() < 0.5 ? this.switchSprite(`Attack1Left`) : this.switchSprite(`Attack2Left`);
+      Math.random() < 0.5
+        ? this.switchSprite(`Attack1Left`)
+        : this.switchSprite(`Attack2Left`);
     }
   }
 
-  takeHit() {
-    if(this.isTakingDamage) return;
-
-    this.health -= 10;
-
-    this.isTakingDamage = true;
-    setTimeout(() => {
-      this.isTakingDamage = false;
-    }, 350);
+  takeHit(attackDamage) {
+    this.health -= attackDamage;
 
     if (this.health <= 0) {
-      if (this.lastDirection === `right`) {
-        this.switchSprite(`Death`);
+      if (this.lastDirection === "right") {
+        this.switchSprite("Death");
       } else {
-        this.switchSprite(`DeathLeft`);
+        this.switchSprite("DeathLeft");
       }
     } else {
-      if (this.lastDirection === `right`) {
-        this.switchSprite(`TakeHit`);
+      if (this.lastDirection === "right") {
+        this.switchSprite("TakeHit");
       } else {
-        this.switchSprite(`TakeHitLeft`);
+        this.switchSprite("TakeHitLeft");
       }
+    }
+    if (this.health <= 0) {
+      this.isDead = true;
     }
   }
 }

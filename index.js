@@ -69,6 +69,7 @@ const player = new Player({
     y: 300,
   },
   collisionBlocks,
+  attackDamage: 10,
   platformCollisionBlocks,
   imageSrc: `./img/hero_knight/Idle.png`,
   frameRate: 11,
@@ -164,6 +165,7 @@ const player2 = new Player({
     y: 300,
   },
   lastDirection: `left`,
+  attackDamage: 10,
   collisionBlocks,
   platformCollisionBlocks,
   imageSrc: `./img/hero_knight/Idle.png`,
@@ -319,7 +321,7 @@ function animate() {
     }) &&
     player.isAttacking
   ) {
-    player2.takeHit();
+    player2.takeHit(player.attackDamage);
     player.isAttacking = false;
     gsap.to("#enemyHealth", {
       width: `${player2.health}%`,
@@ -335,7 +337,7 @@ function animate() {
     }) &&
     player2.isAttacking
   ) {
-    player.takeHit();
+    player.takeHit(player2.attackDamage);
     player2.isAttacking = false;
     gsap.to("#playerHealth", {
       width: `${player.health}%`,
@@ -393,7 +395,7 @@ function animate() {
     player2.velocity.x = -1.5;
     player2.lastDirection = "left";
     player2.shouldPanCameraToRight({ canvas, camera });
-  } else if (player2.velocity.y === 0 ) {
+  } else if (player2.velocity.y === 0) {
     if (player2.lastDirection === "right") {
       player2.switchSprite("Idle");
     } else {
@@ -422,14 +424,14 @@ function animate() {
   //determine winner
   if (player.health <= 0 || player2.health <= 0) {
     determineWinner({ player, player2, timerId });
-    if(player.health <= 0){
-      if(player.lastDirection === `right`){
+    if (player.health <= 0) {
+      if (player.lastDirection === `right`) {
         player.switchSprite(`Death`);
       } else {
         player.switchSprite(`DeathLeft`);
       }
-    } else if (player2.health <= 0){
-      if(player2.lastDirection === `right`){
+    } else if (player2.health <= 0) {
+      if (player2.lastDirection === `right`) {
         player2.switchSprite(`Death`);
       } else {
         player2.switchSprite(`DeathLeft`);
@@ -444,54 +446,56 @@ function animate() {
 animate();
 //key presses
 addEventListener(`keydown`, (e) => {
-  switch (e.key) {
-    //player 1
-    case `d`:
-      keys.d.pressed = true;
-      break;
-
-    case `a`:
-      keys.a.pressed = true;
-      break;
-
-    case `w`:
-      player.doubleJump++;
-      if (player.doubleJump >= 3) {
+  //player 1
+  if (!player.dead) {
+    switch (e.key) {
+      case `d`:
+        keys.d.pressed = true;
         break;
-      }
-      player.velocity.y = -3.1;
-      break;
 
-    //player 2
-    case `ArrowRight`:
-      keys.arrowRight.pressed = true;
-      break;
-
-    case `ArrowLeft`:
-      keys.arrowLeft.pressed = true;
-      break;
-
-    case `ArrowUp`:
-      player2.doubleJump++;
-      if (player2.doubleJump >= 3) {
+      case `a`:
+        keys.a.pressed = true;
         break;
-      }
-      player2.velocity.y = -3.1;
-      break;
 
-    //combat Player 1
+      case `w`:
+        player.doubleJump++;
+        if (player.doubleJump >= 3) {
+          break;
+        }
+        player.velocity.y = -3.1;
+        break;
 
-    case `q`:
-      console.log("player 1 attack");
-      player.attack();
-      break;
+      case `q`:
+        console.log("player 1 attack");
+        player.attack();
+        break;
+    }
+  }
 
-    //combar Player 2
+  //player 2
+  if (!player2.dead) {
+    switch (e.key) {
+      case `ArrowRight`:
+        keys.arrowRight.pressed = true;
+        break;
 
-    case ` `:
-      console.log("player 2 attack");
-      player2.attack();
-      break;
+      case `ArrowLeft`:
+        keys.arrowLeft.pressed = true;
+        break;
+
+      case `ArrowUp`:
+        player2.doubleJump++;
+        if (player2.doubleJump >= 3) {
+          break;
+        }
+        player2.velocity.y = -3.1;
+        break;
+
+      case ` `:
+        console.log("player 2 attack");
+        player2.attack();
+        break;
+    }
   }
 });
 
