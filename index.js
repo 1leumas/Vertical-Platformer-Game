@@ -272,7 +272,7 @@ const keys = {
   },
   q: {
     pressed: false,
-  }
+  },
 };
 
 //background
@@ -308,7 +308,24 @@ function animate() {
   //put players into the game
   player.update();
   player2.update();
-  //restore
+
+  //player 1 check hit
+  if(rectangularCollision({
+    rectangle1: player,
+    rectangle2: player2,
+  }) && player.isAttacking) {
+    console.log("player 2 hit")
+    player.isAttacking = false;
+  }
+
+  //player 2 check hit
+  if(rectangularCollision({
+    rectangle1: player2,
+    rectangle2: player,
+  }) && player2.isAttacking) {
+    console.log(`player 1 hit`)
+    player2.isAttacking = false;
+  }
 
   // player 1 movement animations
   player.velocity.x = 0;
@@ -431,7 +448,15 @@ addEventListener(`keydown`, (e) => {
 
     //combat Player 1
 
+    case `q`:
+      player.attack();
+      break;
+
     //combar Player 2
+
+    case ` `:
+      player2.attack();
+      break;
   }
 });
 

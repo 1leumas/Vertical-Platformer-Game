@@ -46,6 +46,14 @@ class Player extends Sprite {
     };
 
     this.doubleJump = 0;
+
+    this.attackBox = {
+      position: this.position,
+      width: 22,
+      height: 5,
+    };
+
+    this.isAttacking = false;
   }
 
   //swapping between images
@@ -121,8 +129,8 @@ class Player extends Sprite {
     this.updateCameraBox();
 
     //this draws out the image
-    // c.fillStyle = `rgba(255, 255, 0, 0.2)`;
-    // c.fillRect(this.position.x, this.position.y, this.width, this.height);
+    c.fillStyle = `rgba(255, 255, 0, 0.2)`;
+    c.fillRect(this.position.x, this.position.y, this.width, this.height);
 
     //hitbox style
     // c.fillStyle = `rgba(0, 0, 255, 0.2)`;
@@ -151,20 +159,72 @@ class Player extends Sprite {
     //apply gravity method
     this.applyGravity();
     this.updateHitbox();
+
+    this.updateAttackBox();
     //check for vertical collision
     this.checkForVerticalCollisions();
+
+    c.fillStyle = "rgba(0, 0, 255, 0.2)";
+    c.fillRect(
+      this.hitbox.position.x,
+      this.hitbox.position.y,
+      this.hitbox.width,
+      this.hitbox.height
+    );
+
+    c.fillStyle = "rgba(255, 0, 0, 0.5)";
+    c.fillRect(
+      this.attackBox.position.x,
+      this.attackBox.position.y,
+      this.attackBox.width,
+      this.attackBox.height
+    );
   }
 
-  //player hitbox
+  // update attack box with player last direction
+  updateAttackBox() {
+    if (this.lastDirection === "right") {
+      this.attackBox = {
+        position: {
+          x: this.position.x + 53.7,
+          y: this.position.y + 45,
+        },
+        width: 22,
+        height: 10,
+      };
+    } else if (this.lastDirection === "left") {
+      this.attackBox = {
+        position: {
+          x: this.position.x + 25,
+          y: this.position.y + 45,
+        },
+        width: 22,
+        height: 10,
+      };
+    }
+  }
+
+  //update hitbox with player last direction
   updateHitbox() {
-    this.hitbox = {
-      position: {
-        x: this.position.x + 43,
-        y: this.position.y + 38.5,
-      },
-      width: 22,
-      height: 25,
-    };
+    if (this.lastDirection === "right") {
+      this.hitbox = {
+        position: {
+          x: this.position.x + 43,
+          y: this.position.y + 38.5,
+        },
+        width: 22,
+        height: 25,
+      };
+    } else if (this.lastDirection === "left") {
+      this.hitbox = {
+        position: {
+          x: this.position.x + 36,
+          y: this.position.y + 38.5,
+        },
+        width: 22,
+        height: 25,
+      };
+    }
   }
 
   //check horizontal collision with the map
@@ -273,5 +333,14 @@ class Player extends Sprite {
         }
       }
     }
+  }
+
+  //attacks
+
+  attack() {
+    this.isAttacking = true;
+    setTimeout(() => {
+      this.isAttacking = false;
+    }, 100);
   }
 }

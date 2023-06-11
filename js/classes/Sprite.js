@@ -46,6 +46,7 @@ class Sprite {
       this.width,
       this.height
     );
+    
   }
 
   update() {
