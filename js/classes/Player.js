@@ -182,7 +182,7 @@ class Player extends Sprite {
     //   this.hitbox.width,
     //   this.hitbox.height
     // );
-    
+
     //attackbox style
     // c.fillStyle = "rgba(255, 0, 0, 0.5)";
     // c.fillRect(

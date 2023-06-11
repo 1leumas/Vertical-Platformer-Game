@@ -118,22 +118,22 @@ const player = new Player({
     Attack1: {
       imageSrc: `./img/hero_knight/Attack1.png`,
       frameRate: 7,
-      frameBuffer: 4,
+      frameBuffer: 6,
     },
     Attack1Left: {
       imageSrc: `./img/hero_knight/Attack1Left.png`,
       frameRate: 7,
-      frameBuffer: 4,
+      frameBuffer: 6,
     },
     Attack2: {
       imageSrc: `./img/hero_knight/Attack2.png`,
       frameRate: 7,
-      frameBuffer: 4,
+      frameBuffer: 6,
     },
     Attack2Left: {
       imageSrc: `./img/hero_knight/Attack2Left.png`,
       frameRate: 7,
-      frameBuffer: 4,
+      frameBuffer: 6,
     },
     Death: {
       imageSrc: `./img/hero_knight/Death.png`,
@@ -148,12 +148,12 @@ const player = new Player({
     TakeHit: {
       imageSrc: `./img/hero_knight/TakeHit.png`,
       frameRate: 4,
-      frameBuffer: 4,
+      frameBuffer: 10,
     },
     TakeHitLeft: {
       imageSrc: `./img/hero_knight/TakeHitLeft.png`,
       frameRate: 4,
-      frameBuffer: 4,
+      frameBuffer: 10,
     },
   },
 });
@@ -214,22 +214,22 @@ const player2 = new Player({
     Attack1: {
       imageSrc: `./img/hero_knight/Attack1.png`,
       frameRate: 7,
-      frameBuffer: 8,
+      frameBuffer: 6,
     },
     Attack1Left: {
       imageSrc: `./img/hero_knight/Attack1Left.png`,
       frameRate: 7,
-      frameBuffer: 8,
+      frameBuffer: 6,
     },
     Attack2: {
       imageSrc: `./img/hero_knight/Attack2.png`,
       frameRate: 7,
-      frameBuffer: 8,
+      frameBuffer: 6,
     },
     Attack2Left: {
       imageSrc: `./img/hero_knight/Attack2Left.png`,
       frameRate: 7,
-      frameBuffer: 8,
+      frameBuffer: 6,
     },
     Death: {
       imageSrc: `./img/hero_knight/Death.png`,
