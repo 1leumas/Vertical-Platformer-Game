@@ -65,7 +65,7 @@ const gravity = 0.075;
 //create players
 const player = new Player({
   position: {
-    x: 100,
+    x: 60,
     y: 300,
   },
   collisionBlocks,
@@ -118,9 +118,10 @@ const player = new Player({
 
 const player2 = new Player({
   position: {
-    x: 100,
+    x: 360,
     y: 300,
   },
+  lastDirection: `left`,
   collisionBlocks,
   platformCollisionBlocks,
   imageSrc: `./img/hero_knight/Idle.png`,
@@ -227,6 +228,7 @@ function animate() {
   //   block.update();
   // });
   player.checkForHorizontalCanvasCollision();
+  player2.checkForHorizontalCanvasCollision();
   //put player in game
   player.update();
   player2.update();

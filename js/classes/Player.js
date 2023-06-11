@@ -7,6 +7,7 @@ class Player extends Sprite {
     frameRate,
     scale = 0.56,
     animations,
+    lastDirection = "right",
   }) {
     super({ imageSrc, frameRate, scale });
     this.position = position;
@@ -27,7 +28,7 @@ class Player extends Sprite {
     //animations
     this.animations = animations;
     //last direction
-    this.lastDirection = `right`;
+    this.lastDirection = lastDirection;
     //swapping between images
     for (let key in this.animations) {
       const image = new Image();
