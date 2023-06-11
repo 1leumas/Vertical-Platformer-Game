@@ -340,6 +340,9 @@ class Player extends Sprite {
 
   attack() {
     this.isAttacking = true;
+    setTimeout(() => {
+      this.isAttacking = false;
+    }, 50);
     if (this.lastDirection === `right`) {
       this.switchSprite(`Attack1`);
     } else {
