@@ -321,9 +321,9 @@ function animate() {
   ) {
     player2.takeHit();
     player.isAttacking = false;
-    gsap.to('#enemyHealth', {
-      width: `${player2.health}%`
-    })
+    gsap.to("#enemyHealth", {
+      width: `${player2.health}%`,
+    });
     console.log(`player 2 take hit health: ${player2.health}`);
   }
 
@@ -335,11 +335,11 @@ function animate() {
     }) &&
     player2.isAttacking
   ) {
-    player.takeHit()
+    player.takeHit();
     player2.isAttacking = false;
-    gsap.to('#playerHealth', {
-      width: `${player.health}%`
-    })
+    gsap.to("#playerHealth", {
+      width: `${player.health}%`,
+    });
     console.log(`player 1 take hit health: ${player.health}`);
   }
 
@@ -419,6 +419,10 @@ function animate() {
 
   //player 2 attack animations
 
+  //determine winner
+  if (player.health <= 0 || player2.health <= 0) {
+    determineWinner({ player, player2, timerId });
+  }
   //restore
   c.restore();
 }
@@ -465,14 +469,14 @@ addEventListener(`keydown`, (e) => {
     //combat Player 1
 
     case `q`:
-      console.log("player 1 attack")
+      console.log("player 1 attack");
       player.attack();
       break;
 
     //combar Player 2
 
     case ` `:
-      console.log("player 2 attack")
+      console.log("player 2 attack");
       player2.attack();
       break;
   }
