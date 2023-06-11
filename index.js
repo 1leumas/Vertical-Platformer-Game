@@ -236,12 +236,12 @@ const player2 = new Player({
     Death: {
       imageSrc: `./img/hero_knight/Death.png`,
       frameRate: 11,
-      frameBuffer: 6,
+      frameBuffer: 10,
     },
     DeathLeft: {
       imageSrc: `./img/hero_knight/DeathLeft.png`,
       frameRate: 11,
-      frameBuffer: 6,
+      frameBuffer: 10,
     },
     TakeHit: {
       imageSrc: `./img/hero_knight/TakeHit.png`,
