@@ -54,6 +54,7 @@ class Player extends Sprite {
     };
 
     this.isAttacking = false;
+    this.health = 100;
   }
 
   //swapping between images
@@ -335,12 +336,32 @@ class Player extends Sprite {
     }
   }
 
-  //attacks
+  //combat
 
   attack() {
     this.isAttacking = true;
-    setTimeout(() => {
-      this.isAttacking = false;
-    }, 100);
+    if (this.lastDirection === `right`) {
+      this.switchSprite(`Attack1`);
+    } else {
+      this.switchSprite(`Attack1Left`);
+    }
+  }
+
+  takeHit() {
+    this.health -= 10;
+
+    if (this.health <= 0) {
+      if (this.lastDirection === `right`) {
+        this.switchSprite(`Death`);
+      } else {
+        this.switchSprite(`DeathLeft`);
+      }
+    } else {
+      if (this.lastDirection === `right`) {
+        this.switchSprite(`TakeHit`);
+      } else {
+        this.switchSprite(`TakeHitLeft`);
+      }
+    }
   }
 }

@@ -291,6 +291,8 @@ const camera = {
   },
 };
 
+decreaseTimer();
+
 //start animation
 function animate() {
   //animation loop
@@ -310,21 +312,35 @@ function animate() {
   player2.update();
 
   //player 1 check hit
-  if(rectangularCollision({
-    rectangle1: player,
-    rectangle2: player2,
-  }) && player.isAttacking) {
-    console.log("player 2 hit")
+  if (
+    rectangularCollision({
+      rectangle1: player,
+      rectangle2: player2,
+    }) &&
+    player.isAttacking
+  ) {
+    player2.takeHit();
     player.isAttacking = false;
+    gsap.to('#enemyHealth', {
+      width: `${player2.health}%`
+    })
+    console.log(`player 2 take hit health: ${player2.health}`);
   }
 
   //player 2 check hit
-  if(rectangularCollision({
-    rectangle1: player2,
-    rectangle2: player,
-  }) && player2.isAttacking) {
-    console.log(`player 1 hit`)
+  if (
+    rectangularCollision({
+      rectangle1: player2,
+      rectangle2: player,
+    }) &&
+    player2.isAttacking
+  ) {
+    player.takeHit()
     player2.isAttacking = false;
+    gsap.to('#playerHealth', {
+      width: `${player.health}%`
+    })
+    console.log(`player 1 take hit health: ${player.health}`);
   }
 
   // player 1 movement animations
@@ -449,12 +465,14 @@ addEventListener(`keydown`, (e) => {
     //combat Player 1
 
     case `q`:
+      console.log("player 1 attack")
       player.attack();
       break;
 
     //combar Player 2
 
     case ` `:
+      console.log("player 2 attack")
       player2.attack();
       break;
   }
