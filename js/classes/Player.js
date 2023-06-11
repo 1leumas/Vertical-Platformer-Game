@@ -101,7 +101,11 @@ class Player extends Sprite {
   shouldPanCameraUp({ canvas, camera }) {
     const scaledCanvasHeight = canvas.height / 4;
 
-    if (this.cameraBox.position.y+this.cameraBox.height + this.velocity.y >= 432) return;
+    if (
+      this.cameraBox.position.y + this.cameraBox.height + this.velocity.y >=
+      432
+    )
+      return;
 
     if (
       this.cameraBox.position.y + this.cameraBox.height >=
@@ -143,7 +147,7 @@ class Player extends Sprite {
     this.position.x += this.velocity.x;
     this.updateHitbox();
     //check for horizontal collision
-    this.checkForHorizontalCollisions()
+    this.checkForHorizontalCollisions();
     //apply gravity method
     this.applyGravity();
     this.updateHitbox();

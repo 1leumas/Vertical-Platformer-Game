@@ -73,8 +73,14 @@ const player = new Player({
   imageSrc: `./img/hero_knight/Idle.png`,
   frameRate: 11,
   animations: {
+    //Movement animations
     Idle: {
       imageSrc: `./img/hero_knight/Idle.png`,
+      frameRate: 11,
+      frameBuffer: 6,
+    },
+    IdleLeft: {
+      imageSrc: `./img/hero_knight/IdleLeft.png`,
       frameRate: 11,
       frameBuffer: 6,
     },
@@ -83,8 +89,18 @@ const player = new Player({
       frameRate: 8,
       frameBuffer: 7,
     },
+    RunLeft: {
+      imageSrc: `./img/hero_knight/RunLeft.png`,
+      frameRate: 8,
+      frameBuffer: 7,
+    },
     Jump: {
       imageSrc: `./img/hero_knight/Jump.png`,
+      frameRate: 3,
+      frameBuffer: 7,
+    },
+    JumpLeft: {
+      imageSrc: `./img/hero_knight/JumpLeft.png`,
       frameRate: 3,
       frameBuffer: 7,
     },
@@ -93,25 +109,51 @@ const player = new Player({
       frameRate: 3,
       frameBuffer: 7,
     },
-    IdleLeft: {
-      imageSrc: `./img/hero_knight/IdleLeft.png`,
-      frameRate: 11,
-      frameBuffer: 6,
-    },
-    RunLeft: {
-      imageSrc: `./img/hero_knight/RunLeft.png`,
-      frameRate: 8,
-      frameBuffer: 7,
-    },
-    JumpLeft: {
-      imageSrc: `./img/hero_knight/JumpLeft.png`,
-      frameRate: 3,
-      frameBuffer: 7,
-    },
     FallLeft: {
       imageSrc: `./img/hero_knight/FallLeft.png`,
       frameRate: 3,
       frameBuffer: 7,
+    },
+    //Combat animations
+    Attack1: {
+      imageSrc: `./img/hero_knight/Attack1.png`,
+      frameRate: 7,
+      frameBuffer: 4,
+    },
+    Attack1Left: {
+      imageSrc: `./img/hero_knight/Attack1Left.png`,
+      frameRate: 7,
+      frameBuffer: 4,
+    },
+    Attack2: {
+      imageSrc: `./img/hero_knight/Attack2.png`,
+      frameRate: 7,
+      frameBuffer: 4,
+    },
+    Attack2Left: {
+      imageSrc: `./img/hero_knight/Attack2Left.png`,
+      frameRate: 7,
+      frameBuffer: 4,
+    },
+    Death: {
+      imageSrc: `./img/hero_knight/Death.png`,
+      frameRate: 11,
+      frameBuffer: 6,
+    },
+    DeathLeft: {
+      imageSrc: `./img/hero_knight/DeathLeft.png`,
+      frameRate: 11,
+      frameBuffer: 6,
+    },
+    TakeHit: {
+      imageSrc: `./img/hero_knight/TakeHit.png`,
+      frameRate: 4,
+      frameBuffer: 4,
+    },
+    TakeHitLeft: {
+      imageSrc: `./img/hero_knight/TakeHitLeft.png`,
+      frameRate: 4,
+      frameBuffer: 4,
     },
   },
 });
@@ -127,8 +169,14 @@ const player2 = new Player({
   imageSrc: `./img/hero_knight/Idle.png`,
   frameRate: 11,
   animations: {
+    //Movement animations
     Idle: {
       imageSrc: `./img/hero_knight/Idle.png`,
+      frameRate: 11,
+      frameBuffer: 6,
+    },
+    IdleLeft: {
+      imageSrc: `./img/hero_knight/IdleLeft.png`,
       frameRate: 11,
       frameBuffer: 6,
     },
@@ -137,8 +185,18 @@ const player2 = new Player({
       frameRate: 8,
       frameBuffer: 7,
     },
+    RunLeft: {
+      imageSrc: `./img/hero_knight/RunLeft.png`,
+      frameRate: 8,
+      frameBuffer: 7,
+    },
     Jump: {
       imageSrc: `./img/hero_knight/Jump.png`,
+      frameRate: 3,
+      frameBuffer: 7,
+    },
+    JumpLeft: {
+      imageSrc: `./img/hero_knight/JumpLeft.png`,
       frameRate: 3,
       frameBuffer: 7,
     },
@@ -147,25 +205,51 @@ const player2 = new Player({
       frameRate: 3,
       frameBuffer: 7,
     },
-    IdleLeft: {
-      imageSrc: `./img/hero_knight/IdleLeft.png`,
-      frameRate: 11,
-      frameBuffer: 6,
-    },
-    RunLeft: {
-      imageSrc: `./img/hero_knight/RunLeft.png`,
-      frameRate: 8,
-      frameBuffer: 7,
-    },
-    JumpLeft: {
-      imageSrc: `./img/hero_knight/JumpLeft.png`,
-      frameRate: 3,
-      frameBuffer: 7,
-    },
     FallLeft: {
       imageSrc: `./img/hero_knight/FallLeft.png`,
       frameRate: 3,
       frameBuffer: 7,
+    },
+    //Combat animations
+    Attack1: {
+      imageSrc: `./img/hero_knight/Attack1.png`,
+      frameRate: 7,
+      frameBuffer: 4,
+    },
+    Attack1Left: {
+      imageSrc: `./img/hero_knight/Attack1Left.png`,
+      frameRate: 7,
+      frameBuffer: 10,
+    },
+    Attack2: {
+      imageSrc: `./img/hero_knight/Attack2.png`,
+      frameRate: 7,
+      frameBuffer: 4,
+    },
+    Attack2Left: {
+      imageSrc: `./img/hero_knight/Attack2Left.png`,
+      frameRate: 7,
+      frameBuffer: 10,
+    },
+    Death: {
+      imageSrc: `./img/hero_knight/Death.png`,
+      frameRate: 11,
+      frameBuffer: 6,
+    },
+    DeathLeft: {
+      imageSrc: `./img/hero_knight/DeathLeft.png`,
+      frameRate: 11,
+      frameBuffer: 6,
+    },
+    TakeHit: {
+      imageSrc: `./img/hero_knight/TakeHit.png`,
+      frameRate: 4,
+      frameBuffer: 4,
+    },
+    TakeHitLeft: {
+      imageSrc: `./img/hero_knight/TakeHitLeft.png`,
+      frameRate: 4,
+      frameBuffer: 4,
     },
   },
 });
@@ -177,15 +261,18 @@ const keys = {
   a: {
     pressed: false,
   },
-};
-
-const keys2 = {
   arrowRight: {
     pressed: false,
   },
   arrowLeft: {
     pressed: false,
   },
+  space: {
+    pressed: false,
+  },
+  q: {
+    pressed: false,
+  }
 };
 
 //background
@@ -208,10 +295,6 @@ const camera = {
 function animate() {
   //animation loop
   requestAnimationFrame(animate);
-  //canvas background
-  // c.fillStyle = `white`;
-  // c.fillRect(0, 0, canvas.width, canvas.height);
-
   //save
   c.save();
   //scale up background image
@@ -219,22 +302,15 @@ function animate() {
   c.translate(camera.position.x, camera.position.y);
   //put background in game
   background.update();
-  //put collisions block in the game
-  // collisionBlocks.forEach((collisionBlock) => {
-  //   collisionBlock.update();
-  // });
-  // //put platform collisions block in the game
-  // platformCollisionBlocks.forEach((block) => {
-  //   block.update();
-  // });
+  //check for edge collisions
   player.checkForHorizontalCanvasCollision();
   player2.checkForHorizontalCanvasCollision();
-  //put player in game
+  //put players into the game
   player.update();
   player2.update();
   //restore
 
-  // player movement
+  // player 1 movement animations
   player.velocity.x = 0;
   if (keys.d.pressed) {
     player.switchSprite("Run");
@@ -270,14 +346,16 @@ function animate() {
     }
   }
 
-  // player 2 movement
+  //player 1 attack animations
+
+  // player 2 movement animations
   player2.velocity.x = 0;
-  if (keys2.arrowRight.pressed) {
+  if (keys.arrowRight.pressed) {
     player2.switchSprite("Run");
     player2.velocity.x = 1.5;
     player2.lastDirection = "right";
     player2.shouldPanCameraToLeft({ canvas, camera });
-  } else if (keys2.arrowLeft.pressed) {
+  } else if (keys.arrowLeft.pressed) {
     player2.switchSprite("RunLeft");
     player2.velocity.x = -1.5;
     player2.lastDirection = "left";
@@ -306,6 +384,9 @@ function animate() {
     }
   }
 
+  //player 2 attack animations
+
+  //restore
   c.restore();
 }
 
@@ -314,6 +395,7 @@ animate();
 //key presses
 addEventListener(`keydown`, (e) => {
   switch (e.key) {
+    //player 1
     case `d`:
       keys.d.pressed = true;
       break;
@@ -330,12 +412,13 @@ addEventListener(`keydown`, (e) => {
       player.velocity.y = -3.1;
       break;
 
+    //player 2
     case `ArrowRight`:
-      keys2.arrowRight.pressed = true;
+      keys.arrowRight.pressed = true;
       break;
 
     case `ArrowLeft`:
-      keys2.arrowLeft.pressed = true;
+      keys.arrowLeft.pressed = true;
       break;
 
     case `ArrowUp`:
@@ -345,11 +428,16 @@ addEventListener(`keydown`, (e) => {
       }
       player2.velocity.y = -3.1;
       break;
+
+    //combat Player 1
+
+    //combar Player 2
   }
 });
 
 addEventListener(`keyup`, (e) => {
   switch (e.key) {
+    //player 1 keyup
     case `d`:
       keys.d.pressed = false;
       break;
@@ -358,12 +446,13 @@ addEventListener(`keyup`, (e) => {
       keys.a.pressed = false;
       break;
 
+    //player 2 keyup
     case `ArrowRight`:
-      keys2.arrowRight.pressed = false;
+      keys.arrowRight.pressed = false;
       break;
 
     case `ArrowLeft`:
-      keys2.arrowLeft.pressed = false;
+      keys.arrowLeft.pressed = false;
       break;
   }
 });
