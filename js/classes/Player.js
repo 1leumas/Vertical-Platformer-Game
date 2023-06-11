@@ -174,21 +174,23 @@ class Player extends Sprite {
     //check for vertical collision
     this.checkForVerticalCollisions();
 
-    c.fillStyle = "rgba(0, 0, 255, 0.2)";
-    c.fillRect(
-      this.hitbox.position.x,
-      this.hitbox.position.y,
-      this.hitbox.width,
-      this.hitbox.height
-    );
-
-    c.fillStyle = "rgba(255, 0, 0, 0.5)";
-    c.fillRect(
-      this.attackBox.position.x,
-      this.attackBox.position.y,
-      this.attackBox.width,
-      this.attackBox.height
-    );
+    //hitbox style
+    // c.fillStyle = "rgba(0, 0, 255, 0.2)";
+    // c.fillRect(
+    //   this.hitbox.position.x,
+    //   this.hitbox.position.y,
+    //   this.hitbox.width,
+    //   this.hitbox.height
+    // );
+    
+    //attackbox style
+    // c.fillStyle = "rgba(255, 0, 0, 0.5)";
+    // c.fillRect(
+    //   this.attackBox.position.x,
+    //   this.attackBox.position.y,
+    //   this.attackBox.width,
+    //   this.attackBox.height
+    // );
   }
 
   // update attack box with player last direction
@@ -352,7 +354,7 @@ class Player extends Sprite {
     this.isAttacking = true;
     setTimeout(() => {
       this.isAttacking = false;
-    }, 350);
+    }, 270);
     if (this.lastDirection === `right`) {
       Math.random() < 0.5 ? this.switchSprite(`Attack1`) : this.switchSprite(`Attack2`);
     } else {
